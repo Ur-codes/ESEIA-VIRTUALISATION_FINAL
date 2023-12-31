@@ -1,0 +1,65 @@
+services:
+  vote:
+    # Utilisation d'une image d'un dépot semblable car le build des dockerfile ne fonctionne pas
+    image: docker/esiea_vote
+    depends_on:
+      redis:
+        condition: service_healthy 
+    ports:
+      - "5002:80"
+    networks:
+      - front-tier
+      - back-tier
+
+  result:
+    # Utilisation d'une image d'un dépot semblable car le build des dockerfile ne fonctionne pas
+    image: docker/esiea_result
+    depends_on:
+      db:
+        condition: service_healthy 
+    ports:
+      - "5001:80"
+    networks:
+      - front-tier
+      - back-tier
+
+  worker:
+    image: docker/esiea_worker
+    depends_on:
+      redis:
+        condition: service_healthy 
+      db:
+        condition: service_healthy 
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - "./healthchecks:/healthchecks"
+    healthcheck:
+      test: /healthchecks/redis.sh
+      interval: "5s"
+    networks:
+      - back-tier
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      - "./healthchecks:/healthchecks"
+    healthcheck:
+      test: /healthchecks/postgres.sh
+      interval: "5s"
+    networks:
+      - back-tier
+
+volumes:
+  db-data:
+
+networks:
+  front-tier:
+  back-tier:
