@@ -1,6 +1,5 @@
 services:
   vote:
-    # Utilisation d'une image d'un dépot semblable car le build des dockerfile ne fonctionne pas
     image: docker/esiea_vote
     depends_on:
       redis:
@@ -12,7 +11,6 @@ services:
       - back-tier
 
   result:
-    # Utilisation d'une image d'un dépot semblable car le build des dockerfile ne fonctionne pas
     image: docker/esiea_result
     depends_on:
       db:
