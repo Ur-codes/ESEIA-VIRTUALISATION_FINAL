@@ -29,6 +29,11 @@ To add local images (worker/result/vote) to your docker, be on your directory to
 docker compose build
 ```
 
+/!\ Important /!\ Give the perfect permission to your healthchecks repository
+```shell
+chmod 755 healthchecks
+```
+
 ## Getting started
 
 This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
