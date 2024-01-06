@@ -29,9 +29,10 @@ To add local images (worker/result/vote) to your docker, be on your directory to
 docker compose build
 ```
 
-/!\ Important /!\ Give the perfect permission to your healthchecks repository
+/!\ Important /!\ Go to your healthchecks repository and give the perfect permission to your two scritps
 ```shell
-chmod 755 healthchecks
+cd healthchecks
+chmod 755 postgres.sh redis.sh
 ```
 
 ## Getting started
